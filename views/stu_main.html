@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Centered Box with Text, Entry, and Button</title>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f4f4f4;
+        font-family: Arial, sans-serif;
+    }
+    .box {
+        width: 300px;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        position: absolute;
+        top: calc(50px + 35px); /* Adjusted top position */
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    table {
+        width: 100%;
+    }
+
+    th, td {
+        padding: 10px;
+        text-align: left;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+</style>
+<link rel="stylesheet", href="../public/css/main.css">
+</head>
+<body>
+
+<div class="banner">
+    <img src="../public/img/kiit2.png" alt="Banner Image">
+</div>
+
+<div class="box">
+    <img src="../public/img/profile.png" alt="Profile_pic" width="80px">
+    <h2>User Details</h2>
+    <table>
+        <tr>
+            <th>Name</th>
+            <td>Null1</td>
+        </tr>
+        <tr>
+            <th>Roll</th>
+            <td>Null2</td>
+        </tr>
+        <tr>
+            <th>Course</th>
+            <td>Null3</td>
+        </tr>
+        <tr>
+            <th>Branch</th>
+            <td>Null4</td>
+        </tr>
+    </table>
+</div>
+
+<div class="box" style="top: calc(50px + 35px + 385px);"> <!-- Adjusted top position for the second box -->
+    <h2>null</h2>
+    <table>
+        <tr>
+            <th>null</th>
+            <td>null</td>
+        </tr>
+        <tr>
+            <th>null</th>
+            <td>null</td>
+        </tr>
+        <tr>
+            <th>null</th>
+            <td>null</td>
+        </tr>
+        <tr>
+            <th>null</th>
+            <td>null</td>
+        </tr>
+    </table>
+</div>
+
+</body>
+</html>
