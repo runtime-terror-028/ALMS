@@ -39,33 +39,33 @@
         background-color: #f2f2f2;
     }
 </style>
-<link rel="stylesheet", href="../public/css/main.css">
+<link rel="stylesheet", href="css/main.css">
 </head>
 <body>
 
 <div class="banner">
-    <img src="../public/img/kiit2.png" alt="Banner Image">
+    <img src="img/kiit2.png" alt="Banner Image">
 </div>
 
 <div class="box">
-    <img src="../public/img/profile.png" alt="Profile_pic" width="80px">
+    <img src="img/profile.png" alt="Profile_pic" width="80px">
     <h2>User Details</h2>
     <table>
         <tr>
             <th>Name</th>
-            <td>Null1</td>
+            <td><%= user.f_name %></td>
         </tr>
         <tr>
             <th>Roll</th>
-            <td>Null2</td>
+            <td><%= user.roll %></td>
         </tr>
         <tr>
             <th>Course</th>
-            <td>Null3</td>
+            <td><%= user.course %></td>
         </tr>
         <tr>
-            <th>Branch</th>
-            <td>Null4</td>
+            <th>Batch</th>
+            <td><%= user.batch %></td>
         </tr>
     </table>
 </div>

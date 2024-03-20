@@ -20,18 +20,21 @@
 }
 
 </style>
-<link rel="stylesheet", href="../public/css/main.css">
+<link rel="stylesheet", href="css/main.css">
 </head>
 <body>
 
 <div class="banner">
-    <img src="../public/img/kiit2.png" alt="Banner Image">
+    <img src="img/kiit2.png" alt="Banner Image">
 </div>
 <div class="container">
-    <img src="../public/img/kiit.png" alt="Kiit Logo", width="80px">
-    <h2>Scan Your ID Card</h2>
-    <input type="text" placeholder="Roll number">
-    <button>Submit</button>
+    <form action="/userDetails" method="GET">
+        <img src="img/kiit.png" alt="Kiit Logo" width="80px">
+        <h2>Scan Your ID Card</h2>
+        <input type="text" name="rollNumber" placeholder="Roll number">
+        <button type="submit">Submit</button>
+    </form>
+
 </div>
 
 </body>
