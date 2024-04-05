@@ -78,3 +78,25 @@ body{
 .form-container .btn:hover, .open-button:hover {
   opacity: 1;
 }
+.box {
+    width: 300px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: absolute;
+    top: calc(50px + 35px); /* Adjusted top position */
+    left: 50%;
+    transform: translateX(-50%);
+}
+table {
+    width: 100%;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+th {
+    background-color: #f2f2f2;
+}

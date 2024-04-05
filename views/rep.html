@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Account</title>
+<style>
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+    .container {
+    border: 2px solid #000;
+    padding: 20px;
+    text-align: center;
+    background-color: antiquewhite;
+}
+.box1 {
+    width: 300px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: absolute;
+    top: calc(50px + 35px); /* Adjusted top position */
+    left: 50%;
+    transform: translateX(-50%);
+    top: calc( 350px);
+    width: 250px;
+    height: 80px;
+}
+</style>
+<link rel="stylesheet", href="css/main.css">
+</head>
+<body>
+
+<div class="banner">
+    <img src="img/kiit2.png" alt="Banner Image">
+</div>
+
+
+<div class="box">
+    <h2>Verify Student</h2>
+    <form id="checkIssueForm">
+    <table>
+        <tr>
+            <th>Roll no</th>
+            <td><input type="text" placeholder="Scan roll" name="rollNumber" required> </td>
+        </tr>
+        <tr>
+            <th>Book id</th>
+            <td><input type="text" placeholder="Scan book" name="bookId" required> </td>
+        </tr>
+        <tr>
+            <td><button type="submit">Check</button></td>
+        </tr>
+    </table>
+    </form>
+</div>
+
+<div id="resultDiv" class="box1">
+</div>
+
+<script>
+    document.getElementById("checkIssueForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+    const rollNumber = document.getElementsByName("rollNumber")[0].value;
+    const bookId = document.getElementsByName("bookId")[0].value;
+    fetch(`/checkIssue?rollNumber=${rollNumber}&bookId=${bookId}`)
+        .then(response => response.json())
+        .then(data => {
+            const resultDiv = document.getElementById("resultDiv");
+            if (data.issued) {
+                resultDiv.style.backgroundColor = "green";
+                resultDiv.textContent = "Book has been issued to the student.";
+            } else {
+                resultDiv.style.backgroundColor = "red";
+                resultDiv.textContent = "Book has not been issued to the student.";
+            }
+        })
+        .catch(error => console.error("Error:", error));
+});
+</script>
+</body>
+</html>
+INSERT INTO book VALUES (9789352530144, "English", "demo", 2110551);

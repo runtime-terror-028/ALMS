@@ -103,6 +103,28 @@ app.post('/returnBook', (req, res) => {
     });
 });
 
+// Route to check if a book has been issued to a student
+app.get('/checkIssue', (req, res) => {
+    const rollNumber = req.query.rollNumber;
+    const bookId = req.query.bookId;
+
+    // Query to check if the book has been issued to the student
+    connection.query('SELECT * FROM book WHERE roll = ? AND id = ?', [rollNumber, bookId], (error, results, fields) => {
+        if (error) {
+            console.error('Error checking book issue:', error);
+            res.status(500).json({ error: 'Internal server error' });
+            return;
+        }
+
+        if (results.length > 0) {
+            // Book has been issued to the student
+            res.json({ issued: true });
+        } else {
+            // Book has not been issued to the student
+            res.json({ issued: false });
+        }
+    });
+});
 // Set up EJS as the view engine
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -112,6 +134,9 @@ app.get('/stu_login', (req, res) => {
     res.sendFile(path.join(__dirname, 'views/stu_login.html'));
 });
 
+app.get('/rep', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views/rep.html'));
+});
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
 });
