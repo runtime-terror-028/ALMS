@@ -67,30 +67,73 @@
             <th>Batch</th>
             <td><%= user.batch %></td>
         </tr>
+        <tr>
+            <td><button class="open-button" onclick="openIssue()">Issue</button></td>
+            <td><button class="open-button" onclick="openReturn()">Return</button></td>
+        </tr>
     </table>
 </div>
 
-<div class="box" style="top: calc(50px + 35px + 385px);"> <!-- Adjusted top position for the second box -->
-    <h2>null</h2>
+<div class="box" style="top: calc(60px + 35px + 400px); width: 700px;"> <!-- Adjusted top position for the second box -->
+    <h2>Book Issed List</h2>
     <table>
-        <tr>
-            <th>null</th>
-            <td>null</td>
-        </tr>
-        <tr>
-            <th>null</th>
-            <td>null</td>
-        </tr>
-        <tr>
-            <th>null</th>
-            <td>null</td>
-        </tr>
-        <tr>
-            <th>null</th>
-            <td>null</td>
-        </tr>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Book Name</th>
+                <th>Book Author</th>
+                <th>Roll</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% rows.forEach(row => { %>
+                <tr>
+                    <td><%= row.id %></td>
+                    <td><%= row.book_name %></td>
+                    <td><%= row.book_author %></td>
+                    <td><%= row.roll %></td>
+                </tr>
+            <% }); %>
+        </tbody>
     </table>
 </div>
+<div class="form-popup" id="issueForm">
+    <form action="/issueBook" method="post" class="form-container">
+    <input type="hidden" name="rollNumber" value="<%= user.roll %>"> <!-- Hidden input field to pass the roll number -->
+      <h1>Issue Book</h1>
+  
+      <label for="book_id"><b>Book ID</b></label>
+      <input type="text" placeholder="Scan the book" name="book_id" required>
 
+      <button type="submit" class="btn">Issue</button>
+      <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+    </form>
+  </div>
+
+  <div class="form-popup" id="returnForm">
+    <form action="/returnBook" method="post" class="form-container">
+    <input type="hidden" name="rollNumber" value="<%= user.roll %>"> <!-- Hidden input field to pass the roll number -->
+      <h1>Return Book</h1>
+  
+      <label for="book_id"><b>Book ID</b></label>
+      <input type="text" placeholder="Scan the book" name="book_id" required>
+
+      <button type="submit" class="btn">Return</button>
+      <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+    </form>
+  </div>
+  <script>
+    function openIssue() {
+      document.getElementById("issueForm").style.display = "block";
+    }
+    function openReturn() {
+      document.getElementById("returnForm").style.display = "block";
+    }
+    function closeForm() {
+      document.getElementById("issueForm").style.display = "none";
+      document.getElementById("returnForm").style.display = "none";
+    }
+
+    </script>
 </body>
 </html>

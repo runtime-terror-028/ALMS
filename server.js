@@ -34,14 +34,71 @@ app.use(express.urlencoded({ extended: true }));
 app.get('/userDetails', (req, res) => {
     const rollNumber = req.query.rollNumber;
 
-    connection.query('SELECT * FROM student WHERE roll = ?', [rollNumber], (error, results, fields) => {
+    // Combine queries to fetch both student and book details
+    connection.query('SELECT * FROM student WHERE roll = ?', [rollNumber], (error1, studentResults, fields1) => {
+        if (error1) throw error1;
+
+        if (studentResults.length > 0) {
+            const user = studentResults[0];
+
+            // Query to fetch book details
+            connection.query('SELECT * FROM book WHERE roll = ?', [rollNumber], (error2, bookResults, fields2) => {
+                if (error2) throw error2;
+
+                // Render the EJS template with both student and book details
+                res.render('stu_main', { user, rows: bookResults });
+            });
+        } else {
+            res.status(404).send('User not found');
+        }
+    });
+});
+
+// Route to handle issuing a book
+app.post('/issueBook', (req, res) => {
+    const rollNumber = req.body.rollNumber; // Retrieve roll number from the request body
+    const bookId = req.body.book_id; // Retrieve book ID from the form
+
+    // Check if the book with the provided ID exists
+    connection.query('SELECT * FROM book WHERE id = ?', [bookId], (error, results, fields) => {
         if (error) throw error;
 
         if (results.length > 0) {
-            const user = results[0];
-            res.render(path.join(__dirname, 'views/stu_main'), { user });
+            // Book with the provided ID exists, so update the roll number
+            connection.query('UPDATE book SET roll = ? WHERE id = ?', [rollNumber, bookId], (updateError, updateResults, updateFields) => {
+                if (updateError) throw updateError;
+
+                console.log(`Book ${bookId} issued to roll number ${rollNumber}`);
+                res.redirect('/userDetails?rollNumber=' + rollNumber); // Redirect back to user details page
+            });
         } else {
-            res.status(404).send('User not found');
+            // Book with the provided ID does not exist
+            console.log(`Book with ID ${bookId} not found`);
+            res.redirect('/userDetails?rollNumber=' + rollNumber); // Redirect back to user details page
+        }
+    });
+});
+// return book
+app.post('/returnBook', (req, res) => {
+    const rollNumber = req.body.rollNumber; // Retrieve roll number from the request body
+    const bookId = req.body.book_id; // Retrieve book ID from the form
+    const nuller = 0
+    // Check if the book with the provided ID exists
+    connection.query('SELECT * FROM book WHERE id = ?', [bookId], (error, results, fields) => {
+        if (error) throw error;
+
+        if (results.length > 0) {
+            // Book with the provided ID exists, so update the roll number
+            connection.query('UPDATE book SET roll = ? WHERE id = ?', [nuller, bookId], (updateError, updateResults, updateFields) => {
+                if (updateError) throw updateError;
+
+                console.log(`Book ${bookId} returned`);
+                res.redirect('/userDetails?rollNumber=' + rollNumber); // Redirect back to user details page
+            });
+        } else {
+            // Book with the provided ID does not exist
+            console.log(`Book with ID ${bookId} not found`);
+            res.redirect('/userDetails?rollNumber=' + rollNumber); // Redirect back to user details page
         }
     });
 });
