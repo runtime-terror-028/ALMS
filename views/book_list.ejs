@@ -104,13 +104,16 @@
                         <td>
                             <form action="/IssueBook" method="get"> <!-- Form for button -->
                                 <input type="hidden" name="id" value="<%= item.id %>"> <!-- Hidden input to pass book ID -->
-                                <button type="submit">Issue</button>
+                                <button type="submit" <% if (item.available !== 1) { %> disabled <% } %>>Issue</button>
                             </form>
                         </td>
                     </tr>
                     <% }); %>
             </tbody>
         </table>
-
+        <br>
+        <form action="/goMain" method="get">
+            <button type="submit">Go to User Page</button>
+        </form>
     </div>
 </body>

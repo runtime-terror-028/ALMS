@@ -84,29 +84,36 @@ app.post('/issueBook', (req, res) => {
 });
 // return book
 app.post('/returnBook', (req, res) => {
-    const rollNumber = req.body.rollNumber; // Retrieve roll number from the request body
-    const bookId = req.body.book_id; // Retrieve book ID from the form
-    const nuller = 0
+    const rollNumber = req.body.rollNumber;
+    const bookId = req.body.book_id;
+
     // Check if the book with the provided ID exists
     connection.query('SELECT * FROM book1 WHERE id = ?', [bookId], (error, results, fields) => {
-        if (error) throw error;
+        if (error) {
+            console.error('Error checking book existence:', error);
+            res.status(500).send('Internal server error');
+            return;
+        }
 
         if (results.length > 0) {
-            // Book with the provided ID exists, so update the roll number
-            connection.query('UPDATE book1 SET roll = ? WHERE id = ?', [nuller, bookId], (updateError, updateResults, updateFields) => {
-                if (updateError) throw updateError;
+            // Book with the provided ID exists, so update the roll number and availability
+            connection.query('UPDATE book1 SET roll = NULL, available = 1 WHERE id = ?', [bookId], (updateError, updateResults, updateFields) => {
+                if (updateError) {
+                    console.error('Error updating book availability:', updateError);
+                    res.status(500).send('Internal server error');
+                    return;
+                }
 
                 console.log(`Book ${bookId} returned`);
-                res.redirect('/userDetails?rollNumber=' + rollNumber); // Redirect back to user details page
+                res.redirect('/userDetails?rollNumber=' + rollNumber);
             });
         } else {
             // Book with the provided ID does not exist
             console.log(`Book with ID ${bookId} not found`);
-            res.redirect('/userDetails?rollNumber=' + rollNumber); // Redirect back to user details page
+            res.redirect('/userDetails?rollNumber=' + rollNumber);
         }
     });
 });
-
 // Route to check if a book has been issued to a student
 app.get('/checkIssue', (req, res) => {
     const rollNumber = req.query.rollNumber;
@@ -157,15 +164,41 @@ app.post('/login', (req, res) => {
 });
 
 app.get('/IssueBook', (req, res) => {
-    const rollNumber = userData.rollNumber
-    const id = req.query.id
+    const rollNumber = userData.rollNumber;
+    const id = req.query.id;
 
-    connection.query('UPDATE book1 SET roll = ? WHERE id = ?', [rollNumber, id], (updateError, updateResults, updateFields) => {
-        if (updateError) throw updateError;
+    // Check if the book with the provided ID exists and is available
+    connection.query('SELECT * FROM book1 WHERE id = ? AND available = 1', [id], (error, results, fields) => {
+        if (error) {
+            console.error('Error issuing book:', error);
+            res.status(500).send('Internal server error');
+            return;
+        }
 
-        console.log(`Book ${id} issued to roll number ${rollNumber}`);
-        res.redirect('/userDetails?rollNumber=' + rollNumber); // Redirect back to user details page
+        if (results.length > 0) {
+            // Book is available, so update availability and issue it
+            connection.query('UPDATE book1 SET available = 0, roll = ? WHERE id = ?', [rollNumber, id], (updateError, updateResults, updateFields) => {
+                if (updateError) {
+                    console.error('Error updating book availability:', updateError);
+                    res.status(500).send('Internal server error');
+                    return;
+                }
+
+                console.log(`Book ${id} issued to roll number ${rollNumber}`);
+                res.redirect('/userDetails?rollNumber=' + rollNumber);
+            });
+        } else {
+            // Book is not available
+            console.log(`Book with ID ${id} is not available`);
+            res.redirect('/userDetails?rollNumber=' + rollNumber);
+        }
     });
+});
+
+app.get('/goMain', (req, res) => {
+    const rollNumber = userData.rollNumber;
+    res.redirect('/userDetails?rollNumber=' + rollNumber);
+
 });
 
 // Set up EJS as the view engine
