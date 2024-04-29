@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Page</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            border: 2px solid #000;
+            padding: 20px;
+            text-align: center;
+            background-color: antiquewhite;
+        }
+
+        .box1 {
+            width: 300px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: absolute;
+            top: calc(50px + 35px);
+            /* Adjusted top position */
+            left: 50%;
+            transform: translateX(-50%);
+            top: calc(350px);
+            width: 250px;
+            height: 80px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th,
+        td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .available-green {
+            color: green;
+        }
+
+        .available-red {
+            color: red;
+        }
+    </style>
+    <link rel="stylesheet" , href="css/main.css">
+</head>
+
+<body>
+
+    <div class="banner">
+        <img src="img/kiit2.png" alt="Banner Image">
+    </div>
+
+    <div class="container">
+        <h2><u>List of Books</u></h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Sl.no</th>
+                    <th>ID</th>
+                    <th>Book Name</th>
+                    <th>Book Author</th>
+                    <th>Availability</th>
+                    <th>Issue</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% data.forEach(item=> { %>
+                    <tr>
+                        <td>
+                            <%= item.slno %>
+                        </td>
+                        <td>
+                            <%= item.id %>
+                        </td>
+                        <td>
+                            <%= item.book_name %>
+                        </td>
+                        <td>
+                            <%= item.author %>
+                        </td>
+                        <td class="<%= item.available === 1 ? 'available-green' : 'available-red' %>">
+                            <%= item.available === 1 ? 'Available' : 'Not Available' %>
+                        </td>
+                        <td>
+                            <form action="/IssueBook" method="get"> <!-- Form for button -->
+                                <input type="hidden" name="id" value="<%= item.id %>"> <!-- Hidden input to pass book ID -->
+                                <button type="submit">Issue</button>
+                            </form>
+                        </td>
+                    </tr>
+                    <% }); %>
+            </tbody>
+        </table>
+
+    </div>
+</body>

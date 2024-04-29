@@ -4,6 +4,9 @@ const mysql = require('mysql');
 const app = express();
 const port = 3000;
 
+const pageRoute = require("./routes/pageRoute");
+app.use("/", pageRoute);
+
 // Create MySQL connection
 const connection = mysql.createConnection({
     host: '127.0.0.1',
@@ -125,18 +128,19 @@ app.get('/checkIssue', (req, res) => {
         }
     });
 });
+
+app.get('/book', (req, res) => {
+    connection.query('SELECT * FROM book1', (error, results) => {
+      if (error) throw error;
+      res.render('book_list', { data: results });
+    });
+  });
+
+
 // Set up EJS as the view engine
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// Route to serve stu_login.html
-app.get('/stu_login', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views/stu_login.html'));
-});
-
-app.get('/rep', (req, res) => {
-    res.sendFile(path.join(__dirname, 'views/rep.html'));
-});
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
 });

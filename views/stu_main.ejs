@@ -55,14 +55,15 @@
 </div>
 
 <div class="box" style="top: calc(60px + 35px + 400px); width: 700px;"> <!-- Adjusted top position for the second box -->
-    <h2>Book Issed List</h2>
+    <h2>Book Issued List</h2>
     <table>
         <thead>
             <tr>
                 <th>ID</th>
                 <th>Book Name</th>
                 <th>Book Author</th>
-                <th>Roll</th>
+                <th>Issue Date</th>
+                <th>Due Date</th>
             </tr>
         </thead>
         <tbody>
@@ -71,7 +72,8 @@
                     <td><%= row.id %></td>
                     <td><%= row.book_name %></td>
                     <td><%= row.book_author %></td>
-                    <td><%= row.roll %></td>
+                    <td>29/4/2024</td>
+                    <td>due date</td>
                 </tr>
             <% }); %>
         </tbody>
