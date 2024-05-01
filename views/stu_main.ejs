@@ -71,7 +71,7 @@
                 <tr>
                     <td><%= row.id %></td>
                     <td><%= row.book_name %></td>
-                    <td><%= row.book_author %></td>
+                    <td><%= row.author %></td>
                     <td>30/4/2024</td>
                     <td>30/5/2024</td>
                 </tr>
@@ -96,7 +96,6 @@
     <form action="/returnBook" method="post" class="form-container">
     <input type="hidden" name="rollNumber" value="<%= user.roll %>"> <!-- Hidden input field to pass the roll number -->
       <h1>Return Book</h1>
-  
       <label for="book_id"><b>Book ID</b></label>
       <input type="text" placeholder="Scan the book" name="book_id" required>
 
