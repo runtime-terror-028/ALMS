@@ -1,6 +1,8 @@
 const express = require('express');
 const path = require('path');
 const mysql = require('mysql');
+const bodyParser = require('body-parser');
+const nodemailer = require('nodemailer');
 const app = express();
 const port = 3000;
 
@@ -32,6 +34,41 @@ app.use('/img', express.static(path.join(__dirname, 'public/img')));
 
 // Body parser middleware
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+
+// Routes
+app.post('/email', (req, res) => {
+    // Hardcoded message
+    const message = 'You have Issued a Book from KIIT POLYTECHNIC';
+
+    // Create transporter
+    let transporter = nodemailer.createTransport({
+        service: 'Gmail',
+        auth: {
+            user: 'runtime.terror.051@gmail.com', // Your email
+            pass: 'dxss btkm eymi mqqb' // Your password
+        }
+    });
+
+    // Email data
+    let mailOptions = {
+        from: 'runtime.terror.051@gmail.com',
+        to: '2110556@kp.kiit.ac.in',
+        subject: 'Book Issue from Library',
+        text: message
+    };
+
+    // Send email
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            console.log(error);
+            res.status(500).send('Error sending email');
+        } else {
+            console.log('Email sent: ' + info.response);
+        }
+    });
+});
 
 // Route to handle user details submission
 app.get('/userDetails', (req, res) => {

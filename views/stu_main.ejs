@@ -49,6 +49,7 @@
         </tr>
         <tr>
             <!-- <td><button class="open-button" onclick="openIssue()">Issue</button></td> -->
+            <td><form action="/email" method="POST"><button class="open-button" type="submit">Mail</button></form></td>
             <td><button class="open-button" onclick="openReturn()">Return</button></td>
         </tr>
     </table>
@@ -83,7 +84,7 @@
     <form action="/issueBook" method="post" class="form-container">
     <input type="hidden" name="rollNumber" value="<%= user.roll %>"> <!-- Hidden input field to pass the roll number -->
       <h1>Issue Book</h1>
-  
+
       <label for="book_id"><b>Book ID</b></label>
       <input type="text" placeholder="Scan the book" name="book_id" required>
 
